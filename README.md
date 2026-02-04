@@ -1,7 +1,6 @@
 # Repositorio de Tareas
 
-**Materia:** Seguridad de datos
-
+**Materia:** Seguridad de datos 
 **Alumno:** Leonardo Gabriel Pérez Huerta  
 **Profesor:** Ismael Jiménez Sánches  
 **Grupo:** De la mañana
