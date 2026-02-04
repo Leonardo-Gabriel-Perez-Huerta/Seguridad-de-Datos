@@ -2,9 +2,7 @@
 
 ---
 
-## Conceptos sobre Seguridad de la Información
-
-Fundamentos esenciales para la protección de sistemas, datos y usuarios.
+## Conceptos sobre Seguridad de Datos
 
 ---
 
