@@ -10,8 +10,8 @@ En esta sección se presentan los conceptos básicos relacionados con la segurid
 
 | Concepto | Definición |
 |--------|------------|
-| **Triada CIA** | Modelo fundamental de la seguridad de la información que establece tres principios: confidencialidad, que garantiza que la información solo sea accesible por usuarios autorizados; integridad, que asegura que los datos no sean alterados sin autorización; y disponibilidad, que permite el acceso a la información cuando se necesita. |
-| **Usability Triangle** | Modelo que relaciona seguridad, usabilidad y funcionalidad en un sistema. Incrementar la seguridad puede afectar la experiencia del usuario, por lo que se busca un equilibrio adecuado entre estos tres elementos. |
+| **Triada CIA (Confidentiality, Integrity, Availability)** | Modelo fundamental de la seguridad de la información que establece tres principios: confidencialidad, que garantiza que la información solo sea accesible por usuarios autorizados; integridad, que asegura que los datos no sean alterados sin autorización; y disponibilidad, que permite el acceso a la información cuando se necesita. |
+| **Usability Triangle (Triángulo de Usabilidad)** | Modelo que relaciona seguridad, usabilidad y funcionalidad en un sistema. Incrementar la seguridad puede afectar la experiencia del usuario, por lo que se busca un equilibrio adecuado entre estos tres elementos. |
 | **Riesgo** | Probabilidad de que una amenaza explote una vulnerabilidad y genere un impacto negativo. El riesgo considera tanto la posibilidad de ocurrencia como las consecuencias del incidente. |
 | **MFA (Multi-Factor Authentication)** | Mecanismo de autenticación que requiere dos o más factores de verificación, basados en algo que el usuario sabe, posee o es, para confirmar su identidad y reducir accesos no autorizados. |
 | **Vulnerabilidad** | Debilidad presente en un sistema, aplicación, red o en el factor humano que puede ser explotada por una amenaza. Puede originarse por errores de configuración, software desactualizado o malas prácticas de seguridad. |
