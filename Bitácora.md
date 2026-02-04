@@ -45,11 +45,3 @@ Una amenaza es cualquier evento, actor o circunstancia con la capacidad de causa
 ### Impacto
 
 El impacto es el daño o consecuencia que se produce cuando una amenaza explota una vulnerabilidad. Puede manifestarse en pérdidas económicas, interrupción de servicios, daño reputacional o pérdida de información. Evaluar el impacto permite priorizar medidas de seguridad adecuadas.
-
----
-
-### Conclusión
-
-La seguridad de la información depende de la interacción entre personas, procesos y tecnología. Comprender estos conceptos básicos es fundamental para diseñar, implementar y mantener sistemas seguros.
-
----
