@@ -76,6 +76,8 @@ El autor no se hace responsable del mal uso de esta herramienta. Al emplearla, u
 | Solo podía detenerse reiniciando el ESP32 | Se incorporó un **botón "Detener ataque"** que detiene el envío de paquetes al instante. |
 | Los delays fijos limitaban la efectividad | Se optimizaron los tiempos para enviar ráfagas de 100 paquetes con latencia mínima. |
 
+<img width="738" height="1600" alt="panel" src="https://github.com/user-attachments/assets/c729b85f-d212-486e-b175-ec5366c547e8" />
+
 ## Licencia
 
 Este proyecto se distribuye bajo la licencia **MIT**. Se proporciona "tal cual", sin garantías de ningún tipo.
