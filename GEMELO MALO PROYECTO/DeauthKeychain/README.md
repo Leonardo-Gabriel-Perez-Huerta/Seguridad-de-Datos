@@ -78,6 +78,10 @@ El autor no se hace responsable del mal uso de esta herramienta. Al emplearla, u
 
 <img width="738" height="1600" alt="panel" src="https://github.com/user-attachments/assets/c729b85f-d212-486e-b175-ec5366c547e8" />
 
+## LINK AL VIDEO DE DEMOSTRACIÓN
+
+https://drive.google.com/file/d/1fknHAhRdd14jB46PAAyO9fFyMKvEuFwu/view?usp=sharing
+
 ## Licencia
 
 Este proyecto se distribuye bajo la licencia **MIT**. Se proporciona "tal cual", sin garantías de ningún tipo.
