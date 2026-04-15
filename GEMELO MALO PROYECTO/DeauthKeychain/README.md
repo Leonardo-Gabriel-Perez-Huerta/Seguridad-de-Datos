@@ -1,62 +1,82 @@
-# DeauthKeychain – ESP32-C3 Wi-Fi Deauthentication Tool  
+# DeauthKeychain – ESP32-C3 Wi-Fi Deauthentication Tool con Interfaz Web
 
-[![GitHub](https://img.shields.io/github/stars/zRCrackiiN/DeauthKeychain?style=social)](https://github.com/zRCrackiiN/DeauthKeychain)  
+[![GitHub](https://img.shields.io/badge/status-working-brightgreen)]()
 
-This project is a **Wi-Fi deauthentication tool** for the **ESP32-C3**, capable of scanning nearby networks and sending **deauth packets** to disconnect clients from their access points.  
+Este proyecto es una **herramienta de desautenticación WiFi** para el **ESP32-C3 Super Mini** que incorpora un **panel web interactivo**. Permite escanear redes cercanas y lanzar ataques de desautenticación (deauth) de forma selectiva y cancelable, todo desde un navegador conectado al punto de acceso del propio ESP32.
 
-## Features  
-✅ **Automatic Wi-Fi Scanning** – Detects and stores access points (APs) within range.  
-✅ **Mass Deauthentication** – Sends multiple deauth packets per AP to disrupt client connections.  
-✅ **ESP32-C3 Optimized** – Uses `esp_wifi_80211_tx()` for raw frame injection.  
-✅ **Efficient Packet Transmission** – Sends **100 deauth frames per AP** for increased effectiveness.  
-✅ **Minimal Delay** – Rapid execution with only **10ms delay** between deauth cycles.  
-✅ **Multi-Environment Support** – Easily switch between different attack modes using **PlatformIO environments**.  
+## ✨ Características principales
 
-## Hardware Requirements  
-- **ESP32-C3** development board  
-- USB-C cable for flashing firmware  
+- **Panel web integrado** – Controla el ataque desde cualquier dispositivo con navegador (móvil, tablet, PC).
+- **Escaneo de redes WiFi** – Detecta SSID, canal, intensidad de señal y BSSID de los puntos de acceso cercanos.
+- **Ataque de desautenticación dirigido** – Selecciona la red objetivo desde la interfaz web.
+- **Ataque continuo pero cancelable** – El ataque puede detenerse en cualquier momento con un botón en la web.
+- **No bloqueante** – El servidor web sigue respondiendo mientras se ejecuta el ataque (gracias a `runAttack()` en el `loop()`).
+- **Máxima efectividad** – Envío de ráfagas de 100 paquetes de deauth con latencia mínima.
+- **Optimizado para ESP32-C3** – Utiliza `esp_wifi_80211_tx()` para inyección de tramas raw y evita bibliotecas asíncronas problemáticas.
+- **Sin dependencias externas complicadas** – Solo usa `WiFi.h` y `esp_wifi.h` del framework de Arduino.
 
-## Installation  
-1. Clone this repository:  
-   ```sh
-   git clone https://github.com/zRCrackiiN/DeauthKeychain.git
-   ```  
-2. Install **PlatformIO** or **Arduino IDE** with ESP32 board support.
-3. Select your enviroment.
-4. Flash the firmware to your ESP32-C3 board.  
+## 🛠️ Requisitos de hardware
 
-## Multi-Environment Support (PlatformIO)  
-This project is designed to support **multiple attack modes** using PlatformIO’s environment configuration. Each mode has its own `main.cpp`, automatically selected during compilation.  
+- **ESP32-C3 Super Mini** (u otra placa con chip ESP32-C3)
+- Cable USB-C (que soporte datos)
+- Alimentación USB (PC, power bank o cargador)
 
-### Available Environments:  
-| Environment | Function |
-|------------|----------|
-| `deauth`   | Scans for nearby networks and sends **deauth packets** to disconnect clients. |
-| `beacon_spam` | Floods the airwaves with **fake beacon frames**, creating multiple rogue access points. |
+## 📥 Instalación y configuración
 
-### Compiling & Uploading:  
-To build and upload a specific environment, use:  
-```sh
-pio run -e [environment_name] -t upload
-```  
-Replace `[environment_name]` with one of the available environments, e.g., `deauth` or `beacon_spam`.  
-Or simply select an enviroment in the GUI.
+1. **Clona el repositorio** (o copia los archivos fuente):
+   ```bash
+   git clone https://github.com/tuusuario/DeauthKeychain-Web.git
 
-## Usage  
+## Uso de la interfaz web
 
-### **Deauthentication Attack**  
-- Flash the `deauth` environment to your ESP32-C3.  
-- Upon startup, the device will scan for nearby networks and send deauth packets to disconnect clients.  
+1. **Enciende el ESP32** (se iniciará automáticamente al recibir corriente).
+2. **Conéctate a su red WiFi**:
+   - SSID: `MiDeauther`
+   - Contraseña: `12345678`
+3. **Abre un navegador** y visita `http://192.168.4.1`.
+4. **Escanea redes cercanas** pulsando el botón **📡 Escanear redes**.
+5. **Selecciona una red objetivo** (debe ser de tu propiedad o con autorización) y haz clic en **⚡ Atacar**.
+6. **Observa el efecto** – Los dispositivos conectados a esa red se desconectarán.
+7. **Detén el ataque** en cualquier momento con el botón **⏹️ Detener ataque**.
 
-### **Beacon Spam Attack**  
-- Flash the `beacon_spam` environment to your ESP32-C3.  
-- The device will broadcast numerous fake beacon frames to simulate multiple rogue access points.  
+## ¿Cómo funciona el ataque de desautenticación?
 
-## Disclaimer ⚠  
-This project is intended for **educational and security research purposes only**.  
-Unauthorized use of deauthentication or beacon spam attacks is illegal in many jurisdictions. **Only use on networks you own or have explicit permission to test.**  
+El ataque explota una debilidad del protocolo WiFi en sus versiones WPA2 y anteriores: las **tramas de gestión** (como la de desautenticación) **no están cifradas**. Cualquier dispositivo puede falsificarlas.
 
-## License  
-This project is open-source and provided without warranty. Use at your own risk.  
+Tu ESP32 actúa de la siguiente manera:
 
-📌 **GitHub Repository**: [DeauthKeychain](https://github.com/zRCrackiiN/DeauthKeychain)  
+1. **Escanea** las redes cercanas para obtener la dirección MAC (BSSID) y el canal del router objetivo.
+2. **Se sintoniza** en ese canal.
+3. **Construye una trama de desautenticación** (deauth frame) que parece provenir del router legítimo:
+   - Dirección origen = MAC del router (falsificada)
+   - Dirección destino = broadcast (`FF:FF:FF:FF:FF:FF`) o la MAC de un cliente específico.
+4. **Envía la trama** cientos de veces por segundo usando `esp_wifi_80211_tx()`.
+5. Los dispositivos receptores, al creer que la orden viene del router, **se desconectan inmediatamente**.
+
+Si el ataque es continuo (como en este código), los dispositivos no alcanzan a reconectarse y la red queda inutilizable mientras dure el ataque.
+
+## ⚠️ Aviso legal y ético
+
+**Este proyecto es exclusivamente con fines educativos y de investigación en seguridad.**
+
+El uso no autorizado de ataques de desautenticación (deauth) es **ilegal** en muchos países y viola las políticas de uso aceptable de redes.
+
+**Solo debe utilizarse en redes propias o con permiso explícito del propietario.**
+
+El autor no se hace responsable del mal uso de esta herramienta. Al emplearla, usted acepta la responsabilidad total sobre sus acciones.
+
+## Personalizaciones realizadas respecto al repositorio original
+
+| Característica del repositorio original | Mejora implementada |
+|------------------------------------------|----------------------|
+| Ataque automático e ininterrumpido | Ahora es **selectivo y cancelable** desde una interfaz web. |
+| Sin interfaz de usuario | Se añadió un **panel web completo** (HTML/CSS/JS) alojado en el ESP32. |
+| Usaba bibliotecas asíncronas incompatibles con ESP32-C3 | Se reemplazó por un **servidor síncrono** (`WiFiServer`) 100% compatible. |
+| El ataque bloqueaba el resto de funciones | El código es **no bloqueante**; el servidor web responde incluso durante el ataque. |
+| Solo podía detenerse reiniciando el ESP32 | Se incorporó un **botón "Detener ataque"** que detiene el envío de paquetes al instante. |
+| Los delays fijos limitaban la efectividad | Se optimizaron los tiempos para enviar ráfagas de 100 paquetes con latencia mínima. |
+
+## Licencia
+
+Este proyecto se distribuye bajo la licencia **MIT**. Se proporciona "tal cual", sin garantías de ningún tipo.
+Eres libre de usarlo, modificarlo y distribuirlo siempre que mantengas el aviso de copyright y la licencia original.
